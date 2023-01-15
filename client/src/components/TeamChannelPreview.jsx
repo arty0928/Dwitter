@@ -1,5 +1,4 @@
 import React from 'react'
-import { cos } from 'react-native-reanimated';
 import {Avatar, useChatContext} from "stream-chat-react";
 
 const TeamChannelPreview = ({channel, type}) => {
