@@ -3,6 +3,8 @@ export default class TweetService {
     this.baseURL = baseURL;
   }
 
+
+  
   async getTweets(username) {
     let query = username ? `?username=${username}` : '';
     const response = await fetch(`${this.baseURL}/tweets${query}`, {
