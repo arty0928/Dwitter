@@ -43,4 +43,13 @@ router.put('/:id', validateTweet, tweetController.updateTweet);
 // DELETE /tweets/:id
 router.delete('/:id',tweetController.removeTweet);
 
+
+
+router.post('/signup', tweetController.signUp);
+
+router.post('/login', tweetController.signUp);
+
+router.get('/auth')
+
+
 export default router;
