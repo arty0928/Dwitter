@@ -23,6 +23,7 @@ export async function getTweet(req, res) {
 }
 
 export async function createTweet(req, res){
+    console.log(`tweet controller create tweet in server `);
     const { text, name, username } = req.body;
     const tweet = await tweetRepository.create(text, name, username);
     res.status(201).json(tweet);

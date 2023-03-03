@@ -1,4 +1,5 @@
 export default class TweetService {
+
   constructor(http) {
     this.http = http;
   }
@@ -12,9 +13,16 @@ export default class TweetService {
 
 //fetch에서 에러가 나면 에러를 던지니까 에러를 reject하는 promise가 됨
   async postTweet(text) {
+    console.log('post tweet client');
+    console.log(this.http);
+
     return this.http.fetch(`/tweets`, {
       method: 'POST',
-      body: JSON.stringify({ text, username: 'ellie', name: 'Ellie' }),
+      body: JSON.stringify({ 
+        text, 
+        username: 'ellie', 
+        name: 'Ellie' 
+      }),
     });
   }
 
