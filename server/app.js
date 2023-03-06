@@ -16,6 +16,9 @@ app.use(morgan('tiny'));
 //Tweets
 app.use('/tweets', tweetsRouter);
 
+//Auth
+app.use('/auth', authRouter);
+
 app.use((req, res, next) => {
   res.sendStatus(404);
 });
@@ -24,8 +27,5 @@ app.use((error, req, res, next) => {
   console.error(error);
   res.sendStatus(500);
 });
-
-//Auth
-app.use('/auth', authRouter);
 
 app.listen(8080);

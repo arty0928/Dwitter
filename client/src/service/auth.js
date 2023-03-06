@@ -1,10 +1,7 @@
+
 export default class AuthService {
 
-  constructor(http) {
-    this.http = http;
-  }
-
-  async fetchlogin(username, password) {
+  async login(username, password) {
     return {
       username: 'ellie',
       token: 'abc1234',
@@ -23,10 +20,11 @@ export default class AuthService {
   }
 
   async signup(username, password, name, email, url) {
+    console.log(username);
     console.log(`signup client`);
-    console.log(this.http);
+    // console.log(this.http);
 
-    return this.http.fetch(`/tweets` ,{
+    return fetch(`http://localhost:3000/auth` ,{
       method: 'POST',
       body: JSON.stringify({
         username,
