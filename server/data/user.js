@@ -21,8 +21,8 @@ let users = [
     }
 ];
 
-export async function findUsername(username){
-    return users.find((user) => user.username === username);
+export async function findUsername(userdata){
+    return users.find((user) => user.username === userdata.username);
 }
 
 export async function signup(userdata){

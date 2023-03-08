@@ -3,6 +3,7 @@ import * as userRepository from '../data/user.js';
 export async function signup(req, res) {
     //username, password, name, email, url
     const checkUser = await userRepository.findUsername(req.body);
+    console.log(checkUser);
 
     //checkUser = undefined 면 
     //즉, username 이 중복이 아니면
