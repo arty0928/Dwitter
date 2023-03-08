@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import bcryt from 'bcrypt';
+import bcrypt from 'bcrypt';
 
 let users = [
     {
@@ -7,25 +7,22 @@ let users = [
         password: '1234',
         name: 'Ellie',
         email: 'ellie@gmail.com',
-        url: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8cHJvZmlsZXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60'
+        url: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8cHJvZmlsZXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60',
+        token: ''
     },
+
     {
         username: "black",
         password : "2222",
         name : "black",
         email : "black@gmail.com",
-        url: ""
+        url: "",
+        token: ''
     }
 ];
 
 export async function findUsername(username){
-
-    console.log(users);
-    const user = users.find((user) => user.username === username);
-
-    console.log(`find user`);
-    console.log(user);
-    return user;
+    return users.find((user) => user.username === username);
 }
 
 export async function signup(userdata){
@@ -38,16 +35,16 @@ export async function signup(userdata){
         url:  userdata.url
     };
     
-    bcryt.genSalt(10,function(err,salt){
+    bcrypt.genSalt(10,function(err,salt){
         if(err) return Error(err);
 
-        console.log(`salt: ${salt}`);
+        // console.log(`salt: ${salt}`);
 
-        bcryt.hash(user.password, salt, function(err,hash){
+        bcrypt.hash(user.password, salt, function(err,hash){
             if(err) return Error(err);
 
             user.password = hash;
-            console.log(user.password);
+            // console.log(user.password);
         })
     })
 
@@ -58,9 +55,9 @@ export async function signup(userdata){
     },'secretKey');
 
     user.token = token;
-    
-    console.log(`before users`);
-    console.log(users);
+
+    // console.log(`before users`);
+    // console.log(users);
 
     users = [user, ...users];
 
@@ -69,11 +66,22 @@ export async function signup(userdata){
     return  user;
 }
 
+export async function comparePassword(user, plainPassword, cb){
+    bcrypt.compare(plainPassword, user.password, function(err, isMatch){
+        if(err) return cb(err);
+            console.log(users);
+            cb(null, isMatch);
+    });
+}
 
+export async function findByToken(req, cb){
+    let token = req.cookies.x_auth;
+    console.log(token);
+    console.log(users);
 
-export async function comparePassword(user, password){
-    // users.comparePassword(password, (err, isMatch) =>{
-    //     if()
-    // })
-    // return (user.password === password ? true : false);
+    // return users.find((user) => user.username === username);
+    const result = users.find((user)=> user.token === token);
+    console.log('result');
+    console.log(result);
+
 }
