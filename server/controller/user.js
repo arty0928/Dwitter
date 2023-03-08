@@ -33,7 +33,7 @@ export async function login(req, res) {
     //request: username, password
     
     //일치하는 username이 있는지 확인
-    const user = await userRepository.findUsername(req.body.username);
+    const user = await userRepository.findUsername(req.body);
         //비밀번호 비교
 
     if(user){

@@ -22,6 +22,9 @@ let users = [
 ];
 
 export async function findUsername(userdata){
+    console.log(userdata);
+    console.log('userdata');
+
     return users.find((user) => user.username === userdata.username);
 }
 
@@ -67,6 +70,7 @@ export async function signup(userdata){
 }
 
 export async function comparePassword(user, plainPassword, cb){
+    console.log(users);
     bcrypt.compare(plainPassword, user.password, function(err, isMatch){
         if(err) return cb(err);
             console.log(users);
@@ -76,6 +80,7 @@ export async function comparePassword(user, plainPassword, cb){
 
 export async function findByToken(req, cb){
     let token = req.cookies.x_auth;
+    console.log('token');
     console.log(token);
     console.log(users);
 
