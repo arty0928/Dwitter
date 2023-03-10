@@ -1,4 +1,6 @@
 //(Tip!!)데이터베이스를 사용할때 data 폴더 안의 tweet.js만 수정하면 됨
+import * as userRepository from '../data/auth.js';
+
 
 let tweets = [
     {
