@@ -19,9 +19,9 @@ export const isAuth = async (req, res, next) =>{
     //verify: token 유효성 판단
     jwt.verify(
         token,
-        '1asdf234790sj2cow94n9dw39Q',
+        'F2dN7x8HVzBWaQuEEDnhsvHXRWqAR63z',
 
-        //token 유효성 판단
+        //verify: token 유효성 판단
         async(error, decoded) =>{
             if(error){
                 return res.status(401).json(AUTH_ERROR);

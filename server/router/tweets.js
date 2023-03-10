@@ -25,7 +25,7 @@ const validateTweet = [
 // GET /tweets
 // GET /tweets?username=:username
 //tweet에 관련된 처리는 모든 로그인된(isAuth) 사용자만 가능
-router.get('/', isAuth,  tweetController.getTweets);
+router.get('/', isAuth, tweetController.getTweets);
 
 
 // router.get('/', tweetController.getTweets());

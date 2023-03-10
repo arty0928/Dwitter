@@ -6,7 +6,6 @@ let tweets = [
       text: '드림코더분들 화이팅!',
       createdAt: new Date().toString(),
       userId: '1',
-
     },
     {
       id: '2',
@@ -24,7 +23,7 @@ export async function getAll(){
     //Promise로 빙글빙글 돌면서 findById로 tweet에 있는 사용자 정보를 받아오고,
     return Promise.all(
       tweets.map(async (tweet) => {
-        const {username, ame, url} = await userRepository.findById(
+        const {username, name, url} = await userRepository.findById(
           tweet.userId
         );
         //트윗이랑 사용자의 정보를 함께 더해줌
@@ -53,7 +52,7 @@ export async function getById(id){
 
 export async function create(text, userId){
   const tweet = {
-    id: Date.now().toString(),
+    id: new Date().toString(),
     text,
     createdAt: new Date(),
     userId,
@@ -69,7 +68,7 @@ export async function update(id, text){
   if(tweet){
     tweet.text = text;
   }
-  return tweet;
+  return getById(tweet.id);
 }
 
 export async function remove(id){
