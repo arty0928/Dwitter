@@ -24,8 +24,10 @@ export async function getTweet(req, res) {
 
 export async function createTweet(req, res){
     console.log(`tweet controller create tweet in server `);
-    const { text, name, username } = req.body;
-    const tweet = await tweetRepository.create(text, name, username);
+    const { text } = req.body;
+    //isAuth에서 사용자의 auth가 맞으면 request에 사용자 정보 저장했잖아
+    //그 req.userId를 가져와서 tweet을 만듦
+    const tweet = await tweetRepository.create(text, req.userId);
     res.status(201).json(tweet);
 }
 

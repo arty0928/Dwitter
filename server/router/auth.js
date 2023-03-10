@@ -3,6 +3,7 @@ import {} from 'express-async-errors';
 import * as authController from '../controller/auth.js';
 import {body} from 'express-validator';
 import { validate } from '../middleware/validator.js';
+import { isAuth } from '../middleware/auth.js';
 
 const router = express.Router();
 
@@ -32,5 +33,8 @@ const validateSignup = [
 router.post('/signup', validateSignup, authController.signup);
 
 router.post('/login', validateCredential, authController.login);
+
+//로그인 후에 유효한지 판단 -> 중간에 isAuth를 확인하고 controller에서 처리
+router.post('/me', isAuth, authController.me);
 
 export default router;

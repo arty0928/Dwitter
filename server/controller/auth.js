@@ -50,3 +50,12 @@ export async function login(req, res) {
 function createJwtToken(id){
     return jwt.sign({id}, jwtSecretKey, {expiresIn: jwtExpriresInDays});
 }
+
+export async function me(req,res,next) {
+    const user = await userRepository.findById(req.userId);
+    if(!user){
+        return res.status(404).json({ message: 'User not found' });
+    }
+    //token은 userID만 넣어서 만듦 ->isAuth에서 이미 확인했지만 여기서 한번더 확인 -> user 정보를 가져오기 위해 
+    res.status(200).json({token: req.token, username: user.username});
+}
