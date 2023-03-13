@@ -9,6 +9,7 @@ const jwtExpriresInDays = '2d';
 const bcryptSaltRounds = 12;
 
 export async function signup(req, res) {
+    console.log('server sign up');
     const {username, password, name, email, url} = req.body; //req.body에서 우리가 원하는 데이터를 다 가져오기
     const found = await userRepository.findByUsername(username);
     if(found){
@@ -27,6 +28,12 @@ export async function signup(req, res) {
     });
     const token = createJwtToken(userId);
     //201: 요청이 성공적이었으며 그 결과로 새로운 리소스가 생성
+    // res.cookie("Authorization",token)
+    //     .status(200)
+    //     .json({
+    //         token,
+    //         username
+    //     }) 
     res.status(201).json({token, username});
 }
 

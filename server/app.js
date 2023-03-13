@@ -13,12 +13,12 @@ app.use(express.json());
 app.use(helmet());
 app.use(cors());
 app.use(morgan('tiny'));
+app.use(cookieParser());
 
 //Tweets
 app.use('/tweets', tweetsRouter);
-
-//Auth
 app.use('/auth', authRouter);
+
 
 app.use((req, res, next) => {
   res.sendStatus(404);

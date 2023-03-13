@@ -21,7 +21,7 @@ const validateCredential = [
 
 const validateSignup = [
     ...validateCredential,
-    body('name').notEmpty().withMessage('nname is missing'),
+    body('name').notEmpty().withMessage('name is missing'),
     body('email').isEmail().normalizeEmail().withMessage('invalid email'),
     body('url')
         .isURL() //url 형식이 맞는지 확인
