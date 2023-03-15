@@ -6,10 +6,7 @@ const AUTH_ERROR = { message: 'Authentication Error' };
 export const isAuth = async (req, res, next) =>{
 
     //req Header에 있던 Authorization 이라는 key를 가져오기
-    const authHeader = req.cookies.Authorization;
-    // const authHeader = req.get('next-auth.session-token');
-    // console.log(req);
-    // const authHeader = req.cookies.Authorization;
+    const authHeader = req.get('Authorization1');
     console.log("authHeader");
     console.log(authHeader);
 

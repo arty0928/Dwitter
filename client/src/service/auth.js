@@ -24,12 +24,11 @@ export default class AuthService {
         username, 
         password
       })
-
     })
   }
 
   async me() {
-    return this.http.fetch(`/auth/me`, {
+    return this.http.fetch(`/auth/me`, {withCredentials: true},{
       method: 'GET'
     });
   }

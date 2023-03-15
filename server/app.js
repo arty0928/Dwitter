@@ -17,7 +17,7 @@ app.use(cookieParser());
 
 //Tweets
 app.use('/tweets', tweetsRouter);
-app.use('/auth', authRouter);
+app.use('/auth',authRouter);
 
 
 app.use((req, res, next) => {
