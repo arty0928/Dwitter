@@ -1,11 +1,12 @@
 export default class AuthService {
 
-  constructor(http){
+  constructor(http,tokenStorage){
     this.http = http;
+    this.tokenStorage = tokenStorage;
   }
 
   async signup(username, password, name, email, url) {
-    return this.http.fetch(`/auth/signup`,{
+    const data = await this.http.fetch(`/auth/signup`,{
       method: 'POST',
       body: JSON.stringify({
         username,
@@ -13,27 +14,33 @@ export default class AuthService {
         name,
         email,
         url
-      })
+      }),
     });
+    this.tokenStorage.saveToken(data.token);
+    return data;
   }
 
   async login(username, password) {
-    return this.http.fetch(`/auth/login`,{
+    const data = await this.http.fetch(`/auth/login`,{
       method: 'POST',
       body: JSON.stringify({
         username, 
         password
-      })
-    })
+      }),
+    });
+    this.tokenStorage.saveToken(data.token);
+    return data;
   }
 
   async me() {
-    return this.http.fetch(`/auth/me`, {withCredentials: true},{
-      method: 'GET'
+    const token = this.tokenStorage.getToken(); //token을 읽어와서
+    return this.http.fetch(`/auth/me`,{
+      method: 'GET',
+      headers: {Authorization: `Bearer ${token}`}, //token을 헤더에 추가해서 
     });
   }
 
   async logout() {
-    return;
+    this.tokenStorage.clearToken();
   }
 }
