@@ -4,8 +4,14 @@ import * as userRepository from '../data/auth.js';
 const AUTH_ERROR = { message: 'Authentication Error' };
 
 export const isAuth = async (req, res, next) =>{
+
     //req Header에 있던 Authorization 이라는 key를 가져오기
-    const authHeader = req.get('Authorization');
+    const authHeader = req.cookies.Authorization;
+    // const authHeader = req.get('next-auth.session-token');
+    // console.log(req);
+    // const authHeader = req.cookies.Authorization;
+    console.log("authHeader");
+    console.log(authHeader);
 
     //authHeader가 존재하지 않거나, authHeader가 Bearer로 시작하지 않으면 
     if(!(authHeader && authHeader.startsWith('Bearer'))){

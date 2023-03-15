@@ -11,6 +11,8 @@ let users = [
 ];
 
 export async function findByUsername(username){
+    console.log(users);
+    console.log(username);
     return users.find((user) => user.username === username);
 }
 

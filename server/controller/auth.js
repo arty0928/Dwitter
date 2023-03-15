@@ -27,31 +27,43 @@ export async function signup(req, res) {
         url,
     });
     const token = createJwtToken(userId);
-    //201: 요청이 성공적이었으며 그 결과로 새로운 리소스가 생성
-    // res.cookie("Authorization",token)
-    //     .status(200)
-    //     .json({
-    //         token,
-    //         username
-    //     }) 
-    res.status(201).json({token, username});
+    // res.status(201).json({token, username});
+    res.cookie("Authorization",token)
+        .status(200)
+        .json({
+            token,
+            username
+        }) 
 }
 
 export async function login(req, res) {
+    console.log("server login 함수 들어옴");
     const {username, password} = req.body;
+    console.log(username, password);
     const user = await userRepository.findByUsername(username);
+    console.log(user);
     if(!user){
         //401: 미인증
         return res.status(401).json({ message: 'Invalid user or password' });
     }
 
+    console.log("login - 일치하는 user 정보 찾음");
     const isValidPassword = await bcrypt.compare(password, user.password);
     if(!isValidPassword){
         return res.status(401).json({ message: 'Invalid user or password ' });
     }
 
+    console.log("login - 비밀번호 일치");
     const token = createJwtToken(user.id);
-    res.status(200).json({token, username});
+    // res.status(200).json({token, username});
+    // console.log("login token");
+    // console.log(token);
+    res.cookie("Authorization",token)
+        .status(200)
+        .json({
+            token: token,
+            username: username
+        }) 
 }
 
 function createJwtToken(id){
