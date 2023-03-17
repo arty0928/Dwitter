@@ -16,6 +16,12 @@ const Tweets = memo(({ tweetService, username, addable }) => {
       .getTweets(username)
       .then((tweets) => setTweets([...tweets]))
       .catch(onError);
+
+    //새로 들어온 tweet이 생기면 onCreated로 tweet을 새로 만들어줌
+    const stopSync = tweetService.onSync((tweet) => onCreated(tweet));
+    //component가 끝날때 더 이상 듣고 싶지 않으므로 stopSync 콜백으로 넘겨주면, network의 socket에서 socket 연결 off
+    return() => stopSync();
+
   }, [tweetService, username, user]);
 
   const onCreated = (tweet) => {

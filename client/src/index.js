@@ -9,23 +9,16 @@ import { AuthProvider } from './context/AuthContext';
 import { AuthErrorEventBus } from './context/AuthContext';
 import HttpClient from './network/http';
 import TokenStorage from './db/token';
-import socket from 'socket.io-client';
+import Socket from './network/socket.js';
 
 const baseURL = process.env.REACT_APP_BASE_URL;
 const tokenStorage = new TokenStorage();
 const httpClient = new HttpClient(baseURL);
 const authErrorEventBus = new AuthErrorEventBus();
 const authService = new AuthService(httpClient, tokenStorage);
-const tweetService = new TweetService(httpClient, tokenStorage);
-
-//2. client에서 socket을 켜서
-const socketIO = socket(baseURL);
-
-socketIO.on('dwitter', (socket)=>{
-  console.log(socket);
-});
-
-socketIO.emit('receive',"From Client to Server");
+//Socket에 baseURL, (tokenStorage에서 token을 받아갈 수 있도록) callback 함수 전달
+const socketClient = new Socket(baseURL, () => tokenStorage.getToken());
+const tweetService = new TweetService(httpClient, tokenStorage, socketClient);
 
 ReactDOM.render(
   <React.StrictMode>
