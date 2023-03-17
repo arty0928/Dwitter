@@ -1,3 +1,4 @@
+import { getSocketIO } from '../connection/socket.js';
 import * as tweetRepository from '../data/tweet.js';
 
 export async function getTweets(req, res){
@@ -29,6 +30,8 @@ export async function createTweet(req, res){
     //그 req.userId를 가져와서 tweet을 만듦
     const tweet = await tweetRepository.create(text, req.userId);
     res.status(201).json(tweet);
+    //controller에서 새로운 Tweet을 만들때마다 socket에게 'tweet' 카테고리안에 새로 만들 tweet을 넣어줌
+    getSocketIO().emit('tweets', tweet);
 }
 
 export async function updateTweet(req, res, next) {
