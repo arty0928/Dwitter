@@ -2,11 +2,15 @@ import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import {} from 'express-async-errors';
 import * as userRepository from '../data/auth.js';
+import {config} from '../config.js';
 
 //TODO: MAKE SECURE
-const jwtSecretKey = 'F2dN7x8HVzBWaQuEEDnhsvHXRWqAR63z';
-const jwtExpriresInDays = '2d';
-const bcryptSaltRounds = 12;
+// const jwtSecretKey = 'F2dN7x8HVzBWaQuEEDnhsvHXRWqAR63z';
+const jwtSecretKey = config.jwt.secretKey;
+// const jwtExpriresInDays = '2d';
+const jwtExpriresInDays = config.jwt.expiresInSec;
+// const bcryptSaltRounds = 12;
+const bcryptSaltRounds = config.bcrypt.saltRounds;
 
 export async function signup(req, res) {
     console.log('server sign up');
@@ -27,47 +31,32 @@ export async function signup(req, res) {
         url,
     });
     const token = createJwtToken(userId);
-    // res.status(201).json({token, username});
-    res.cookie("Authorization",token)
-        .status(200)
-        .json({
-            token,
-            username
-        }) 
+    res.status(201).json({ token, username });
 }
 
 export async function login(req, res) {
-    console.log("server login 함수 들어옴");
     const {username, password} = req.body;
-    console.log(username, password);
     const user = await userRepository.findByUsername(username);
-    console.log(user);
     if(!user){
         //401: 미인증
         return res.status(401).json({ message: 'Invalid user or password' });
     }
 
-    console.log("login - 일치하는 user 정보 찾음");
     const isValidPassword = await bcrypt.compare(password, user.password);
     if(!isValidPassword){
         return res.status(401).json({ message: 'Invalid user or password ' });
     }
 
-    console.log("login - 비밀번호 일치");
     const token = createJwtToken(user.id);
-    // res.status(200).json({token, username});
-    // console.log("login token");
-    // console.log(token);
-    res.cookie("Authorization",token)
-        .status(200)
-        .json({
-            token: token,
-            username: username
-        }) 
+    res.status(200).json({token, username});
 }
 
 function createJwtToken(id){
-    return jwt.sign({id}, jwtSecretKey, {expiresIn: jwtExpriresInDays});
+    console.log(jwtSecretKey);
+    console.log(jwtExpriresInDays);
+    return jwt.sign({id}, jwtSecretKey, {
+        expiresIn: jwtExpriresInDays
+    });
 }
 
 export async function me(req,res,next) {
