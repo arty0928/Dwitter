@@ -5,15 +5,17 @@ import morgan from 'morgan';
 import helmet from 'helmet';
 import tweetsRouter from './router/tweets.js';
 import authRouter from './router/auth.js';
-import cookieParser from 'cookie-parser';
+import dotenv from 'dotenv';
+dotenv.config();
 
+
+console.log(process.env.JWT_SECRET);
 const app = express();
 
 app.use(express.json());
 app.use(helmet());
 app.use(cors());
 app.use(morgan('tiny'));
-app.use(cookieParser());
 
 //Tweets
 app.use('/tweets', tweetsRouter);
